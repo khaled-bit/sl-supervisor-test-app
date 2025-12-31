@@ -7,6 +7,7 @@ use Supervisor\Supervisor;
 use Supervisor\SupervisorServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Config\Repository;
+use Dotenv\Dotenv;
 
 class SupervisorConnectionTest extends TestCase
 {
@@ -16,15 +17,25 @@ class SupervisorConnectionTest extends TestCase
     {
         parent::setUp();
         
+        // Load .env file
+        if (file_exists(dirname(__DIR__, 2) . '/.env')) {
+            $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+            $dotenv->load();
+        }
+        
         // Create a minimal Laravel container
         $app = new Application();
         
-        // Load config from .env
+        // Load config from environment variables
+        $endpoint = $_ENV['SUPERVISOR_XMLRPC_ENDPOINT'] ?? $_SERVER['SUPERVISOR_XMLRPC_ENDPOINT'] ?? 'http://127.0.0.1:9001/RPC2';
+        $username = $_ENV['SUPERVISOR_USERNAME'] ?? $_SERVER['SUPERVISOR_USERNAME'] ?? null;
+        $password = $_ENV['SUPERVISOR_PASSWORD'] ?? $_SERVER['SUPERVISOR_PASSWORD'] ?? null;
+        
         $config = new Repository([
             'supervisor' => [
-                'endpoint' => env('SUPERVISOR_XMLRPC_ENDPOINT', 'http://127.0.0.1:9001/RPC2'),
-                'username' => env('SUPERVISOR_USERNAME'),
-                'password' => env('SUPERVISOR_PASSWORD'),
+                'endpoint' => $endpoint,
+                'username' => $username,
+                'password' => $password,
             ]
         ]);
         
