@@ -4,7 +4,6 @@ use Illuminate\Foundation\Application;
 
 return Application::configure(dirname(__DIR__))
     ->withBasePath(dirname(__DIR__))
-    ->withBootPath(dirname(__DIR__).'/bootstrap')
     ->withConfigPath(dirname(__DIR__).'/config')
     ->withDatabasePath(dirname(__DIR__).'/database')
     ->withLanguagePath(dirname(__DIR__).'/resources/lang')
