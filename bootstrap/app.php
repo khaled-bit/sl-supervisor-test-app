@@ -2,42 +2,45 @@
 
 use Illuminate\Foundation\Application;
 
-return Application::configure(dirname(__DIR__))
-    ->withBasePath(dirname(__DIR__))
-    ->withConfigPath(dirname(__DIR__).'/config')
-    ->withDatabasePath(dirname(__DIR__).'/database')
-    ->withLanguagePath(dirname(__DIR__).'/resources/lang')
-    ->withPublicPath(dirname(__DIR__).'/public')
-    ->withStoragePath(dirname(__DIR__).'/storage')
-    ->withRoutesPath(dirname(__DIR__).'/routes')
-    ->withEnvironmentPath(dirname(__DIR__))
-    ->withEnvironmentFile('.env')
-    ->withProviders([
-        Illuminate\Auth\AuthServiceProvider::class,
-        Illuminate\Broadcasting\BroadcastServiceProvider::class,
-        Illuminate\Bus\BusServiceProvider::class,
-        Illuminate\Cache\CacheServiceProvider::class,
-        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Cookie\CookieServiceProvider::class,
-        Illuminate\Database\DatabaseServiceProvider::class,
-        Illuminate\Encryption\EncryptionServiceProvider::class,
-        Illuminate\Filesystem\FilesystemServiceProvider::class,
-        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-        Illuminate\Hashing\HashServiceProvider::class,
-        Illuminate\Mail\MailServiceProvider::class,
-        Illuminate\Notifications\NotificationServiceProvider::class,
-        Illuminate\Pagination\PaginationServiceProvider::class,
-        Illuminate\Pipeline\PipelineServiceProvider::class,
-        Illuminate\Queue\QueueServiceProvider::class,
-        Illuminate\Redis\RedisServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        Illuminate\Session\SessionServiceProvider::class,
-        Illuminate\Translation\TranslationServiceProvider::class,
-        Illuminate\Validation\ValidationServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,
-        Supervisor\SupervisorServiceProvider::class,
-    ])
-    ->withAliases([
-        'Supervisor' => Supervisor\Facades\Supervisor::class,
-    ])
-    ->create();
+$app = new Application(
+    dirname(__DIR__)
+);
+
+/*
+|--------------------------------------------------------------------------
+| Bind Important Interfaces
+|--------------------------------------------------------------------------
+|
+| Next, we need to bind some important interfaces into the container so
+| we will be able to resolve them when needed. The kernel handles all
+| incoming requests to this application from both the web and CLI.
+|
+*/
+
+$app->singleton(
+    Illuminate\Contracts\Http\Kernel::class,
+    App\Http\Kernel::class
+);
+
+$app->singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
+);
+
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
+);
+
+/*
+|--------------------------------------------------------------------------
+| Return The Application
+|--------------------------------------------------------------------------
+|
+| This script returns the application instance. The instance is then
+| available to other scripts so that they can utilize the various
+| capabilities offered by the Laravel framework.
+|
+*/
+
+return $app;
