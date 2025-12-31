@@ -36,8 +36,9 @@ Artisan::command('supervisor:test', function () {
             $this->line('<warn>No processes found</warn>');
         } else {
             foreach ($processes as $process) {
-                $status = $process->getState() ? '✓' : '✗';
-                $this->line("  {$status} {$process->getName()} - {$process->getStateName()}");
+                $status = $process->isRunning() ? '✓' : '✗';
+                $stateName = $process->getState()->name;  // Get enum name (Running, Stopped, etc.)
+                $this->line("  {$status} {$process->getName()} - {$stateName}");
             }
         }
         
