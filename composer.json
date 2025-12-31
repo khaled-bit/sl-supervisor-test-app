@@ -6,7 +6,8 @@
         "php": "^8.1",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.8",
-        "sl-supervisor/laravel-supervisor": "dev-main"
+        "sl-supervisor/laravel-supervisor": "dev-main",
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
